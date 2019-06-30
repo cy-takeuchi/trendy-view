@@ -5,17 +5,17 @@ jQuery.noConflict();
   // const originalPluginConfig = window.tv.pluginConfig;
 
   const getSettingsUrl = () => {
-    return '/k/admin/app/flow?app=' + window.tv.appId;
+    return `/k/admin/app/flow?app=${window.tv.appId}`;
   };
 
-  const saveButton = new kintoneUIComponent.Button({
+  const kUiSaveButton = new kintoneUIComponent.Button({
     text: 'Save',
     type: 'submit'
   });
-  $('div#tv-save').append(saveButton.render());
+  $('div#tv-save-button').append(kUiSaveButton.render());
 
 
-  saveButton.on('click', (e) => {
+  kUiSaveButton.on('click', (e) => {
     e.preventDefault();
 
     let newPluginConfig = {};
