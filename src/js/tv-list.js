@@ -3,10 +3,10 @@
 
     const pluginConfig = window.tv.pluginConfig;
 
-    let getRecords = async (query) => {
+    const getRecords = async (query) => {
         let res = await window.tv.kintoneRecord.getRecords(window.tv.appId, query);
         return res;
-    }
+    };
 
     kintone.events.on(['mobile.app.record.index.show'], (event) => {
         if (event.viewId !== 5699240) {
