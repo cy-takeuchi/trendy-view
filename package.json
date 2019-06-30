@@ -6,7 +6,7 @@
     "upload": "kintone-plugin-uploader dist/plugin.zip --watch --waiting-dialog-ms 3000",
     "develop": "npm run build -- --watch",
     "build": "kintone-plugin-packer --ppk private.ppk --out dist/plugin.zip src",
-    "lint": "eslint src"
+    "lint": "eslint src/js"
   },
   "devDependencies": {
     "@cybozu/eslint-config": "^5.1.0",
