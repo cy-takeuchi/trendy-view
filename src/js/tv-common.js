@@ -22,13 +22,12 @@
   };
 
 
-  const conn = new kintoneJSSDK.Connection();
   const appId = getAppId();
 
   window.tv = window.tv || {};
 
   window.tv.pluginConfig = pluginConfig;
-  window.tv.kintoneApp = new kintoneJSSDK.App(conn);
-  window.tv.kintoneRecord = new kintoneJSSDK.Record(conn);
+  window.tv.kintoneApp = new kintoneJSSDK.App();
+  window.tv.kintoneRecord = new kintoneJSSDK.Record();
   window.tv.appId = appId;
 })(kintone.$PLUGIN_ID);
