@@ -13,7 +13,7 @@
     "html": "html/config.html",
     "js": [
       "js/jquery-3.4.1.min.js",
-      "js/kintone-js-sdk-0.3.0.min.js",
+      "js/kintone-js-sdk-0.3.1.min.js",
       "js/kintone-ui-component-0.2.0.min.js",
       "js/tv-common.js",
       "js/tv-config.js"
@@ -35,7 +35,7 @@
     "js": [
       "js/jquery-3.4.1.min.js",
       "js/lightslider-1.1.6.min.js",
-      "js/kintone-js-sdk-0.3.0.min.js",
+      "js/kintone-js-sdk-0.3.1.min.js",
       "js/tv-common.js",
       "js/tv-list.js"
     ],
