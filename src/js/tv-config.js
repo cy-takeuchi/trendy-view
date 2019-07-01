@@ -3,9 +3,10 @@ jQuery.noConflict();
   'use strict';
 
   // const originalPluginConfig = window.tv.pluginConfig;
+  const appId = window.tv.appId;
 
   const getSettingsUrl = () => {
-    return `/k/admin/app/flow?app=${window.tv.appId}`;
+    return `/k/admin/app/flow?app=${appId}`;
   };
 
   const kUiSaveButton = new kintoneUIComponent.Button({
