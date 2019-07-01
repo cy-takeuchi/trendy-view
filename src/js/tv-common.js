@@ -22,10 +22,15 @@
   };
   const appId = getAppId();
 
+  const coveredFieldTypeList = [
+    'SINGLE_LINE_TEXT'
+  ];
+
   window.tv = window.tv || {};
 
   window.tv.pluginConfig = pluginConfig;
   window.tv.kintoneApp = new kintoneJSSDK.App();
   window.tv.kintoneRecord = new kintoneJSSDK.Record();
   window.tv.appId = appId;
+  window.tv.coveredFieldTypeList = coveredFieldTypeList;
 })(kintone.$PLUGIN_ID);

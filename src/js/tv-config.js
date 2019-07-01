@@ -4,9 +4,15 @@ jQuery.noConflict();
 
   // const originalPluginConfig = window.tv.pluginConfig;
   const appId = window.tv.appId;
+  const coveredFieldTypeList = window.tv.coveredFieldTypeList;
 
   const getSettingsUrl = () => {
     return `/k/admin/app/flow?app=${appId}`;
+  };
+
+  const getFormFieldList = async () => {
+    const res = await KintoneConfigHelper.getFields();
+    return res.filter((formField) => formField.type.includes(coveredFieldTypeList));
   };
 
   const kUiSaveButton = new kintoneUIComponent.Button({
@@ -15,6 +21,9 @@ jQuery.noConflict();
   });
   $('div#tv-save-button').append(kUiSaveButton.render());
 
+  getFormFieldList().then((res) => {
+    console.log('res', res);
+  });
 
   kUiSaveButton.on('click', (e) => {
     e.preventDefault();
