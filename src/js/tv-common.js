@@ -20,8 +20,6 @@
 
     return id;
   };
-
-
   const appId = getAppId();
 
   window.tv = window.tv || {};

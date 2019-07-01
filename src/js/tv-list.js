@@ -28,7 +28,8 @@
       }
 
       $('ul#tv-light-slider').lightSlider({
-        item: 1
+        item: 1,
+        pager: false
       });
     });
 

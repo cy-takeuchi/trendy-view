@@ -1,4 +1,14 @@
-div#sv-list td {
-    text-align: center;
-    white-space: nowrap;
-}
+ul#tv-light-slider {
+  padding: 0;
+  list-style: none; }
+  ul#tv-light-slider p {
+    position: relative;
+    padding: 7px 5px 7px 10px;
+    margin: 5px;
+    border-left: solid 5px #5c9ee7;
+    background: #f1f8ff;
+    color: #5c9ee7;
+    font-weight: bold;
+    -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); }

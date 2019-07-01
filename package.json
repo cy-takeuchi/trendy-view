@@ -6,13 +6,15 @@
     "upload": "kintone-plugin-uploader dist/plugin.zip --watch --waiting-dialog-ms 3000",
     "develop": "npm run build -- --watch",
     "build": "kintone-plugin-packer --ppk private.ppk --out dist/plugin.zip src",
-    "lint": "eslint src/js"
+    "lint": "eslint src/js",
+    "build-css1": "node-sass src/scss/tv-list.scss src/css/tv-list.css --watch"
   },
   "devDependencies": {
     "@cybozu/eslint-config": "^5.1.1",
     "@kintone/plugin-packer": "^2.0.1",
     "@kintone/plugin-uploader": "^3.0.1",
-    "npm-run-all": "^4.1.5",
-    "eslint": "^6.0.1"
+    "eslint": "^6.0.1",
+    "node-sass": "^4.12.0",
+    "npm-run-all": "^4.1.5"
   }
 }
