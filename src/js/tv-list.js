@@ -31,8 +31,9 @@
   const showSearchBox = () => {
     const el = kintone.mobile.app.getHeaderSpaceElement();
     let html = '';
+    html += '<div id="tv-header">';
     html += '<input type="text" id="tv-search-text" />';
-    html += '<button type="button" id="tv-search-button">Search</button>';
+    html += '</div>';
     $(el).append(html);
   };
 
@@ -105,7 +106,7 @@
         slider = $('ul#tv-light-slider').lightSlider(sliderConfig);
       };
 
-      $(document).on('click', 'button#tv-search-button', searchList);
+      $(document).on('keyup', 'input#tv-search-text', $.debounce(500, searchList));
     });
 
     return event;
