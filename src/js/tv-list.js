@@ -5,12 +5,11 @@
   const kintoneFile = window.tv.kintoneFile;
   const appId = window.tv.appId;
 
-  const getRecords = async (query) => {
-    let res = await kintoneRecord.getRecords(appId, query);
-    return res;
+  const getRecords = (query) => {
+    return kintoneRecord.getRecords(appId, query);
   };
 
-  const downloadFile = async (fileKey) => {
+  const downloadFile = (fileKey) => {
     return kintoneFile.download(fileKey);
   };
 
@@ -29,7 +28,10 @@
     });
   };
 
-  kintone.events.on(['mobile.app.record.index.show'], (event) => {
+  const indexShowEventList = [
+    'mobile.app.record.index.show'
+  ]
+  kintone.events.on(indexShowEventList, (event) => {
     if (event.viewId !== 5699240) {
       return event;
     }
