@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "scripts": {
     "start": "node scripts/npm-start.js",
-    "upload": "kintone-plugin-uploader dist/plugin.zip --watch --waiting-dialog-ms 3000",
+    "upload": "kintone-plugin-uploader dist/kintone-plugin-trendy-view.zip --watch --waiting-dialog-ms 3000",
     "develop": "npm run build -- --watch",
-    "build": "kintone-plugin-packer --ppk private.ppk --out dist/plugin.zip src",
+    "build": "kintone-plugin-packer --ppk private.ppk --out dist/kintone-plugin-trendy-view.zip src",
     "lint": "eslint src/js",
     "build-css1": "node-sass src/scss/tv-list.scss src/css/tv-list.css --watch"
   },
