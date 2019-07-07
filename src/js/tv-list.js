@@ -30,7 +30,9 @@
 
   const showSearchBox = () => {
     const el = kintone.mobile.app.getHeaderSpaceElement();
-    const html = '<input type="text" id="tv-search-text" />';
+    let html = '';
+    html += '<input type="text" id="tv-search-text" />';
+    html += '<button type="button" id="tv-search-button">Search</button>';
     $(el).append(html);
   };
 
@@ -91,7 +93,7 @@
 
       const searchList = () => {
         const value = $('input#tv-search-text').val();
-        let regexpLabel = new RegExp(value);
+        const regexpLabel = new RegExp(value);
         list.filter((item) => {
           if (item.values().title.search(regexpLabel) !== -1) {
             return true;
@@ -103,7 +105,7 @@
         slider = $('ul#tv-light-slider').lightSlider(sliderConfig);
       };
 
-      $(document).on('keyup', 'input#tv-search-text', searchList);
+      $(document).on('click', 'button#tv-search-button', searchList);
     });
 
     return event;
