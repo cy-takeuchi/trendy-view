@@ -13,18 +13,10 @@
     return kintoneFile.download(fileKey);
   };
 
-  const showSearchBox = () => {
-    const el = kintone.mobile.app.getHeaderSpaceElement();
-    let html = '';
-    html += '<input type="text" />';
-    html += '<button type="button">Search</button>';
-    $(el).append(html);
-  };
-
   const showImage = ($slide) => {
     const $slideImageEle = $slide.children('p.filekey');
     const fileKey = $slideImageEle.data('filekey');
-    if (fileKey === '') {
+    if (fileKey === '' || fileKey === undefined) {
       return;
     } else if ($slideImageEle.children('img').length > 0) {
       return;
@@ -36,9 +28,33 @@
     });
   };
 
+  const showSearchBox = () => {
+    const el = kintone.mobile.app.getHeaderSpaceElement();
+    const html = '<input type="text" id="tv-search-text" />';
+    $(el).append(html);
+  };
+
+  const sliderConfig = {
+    item: 1,
+    pager: false,
+    onSliderLoad: ($el) => {
+      $el.css('height', '100%');
+
+      const $currentSlide = $el.children(`li:eq(0)`);
+      showImage($currentSlide);
+      const $nextSlide = $el.children(`li:eq(1)`);
+      showImage($nextSlide);
+    },
+    onAfterSlide: ($el) => {
+      const count = $el.getCurrentSlideCount();
+      const $nextSlide = $el.children(`li:eq(${count})`);
+      showImage($nextSlide);
+    }
+  };
+
   const indexShowEventList = [
     'mobile.app.record.index.show'
-  ]
+  ];
   kintone.events.on(indexShowEventList, (event) => {
     if (event.viewId !== 5699240) {
       return event;
@@ -60,29 +76,34 @@
         let html = '';
         html += '<li>';
         html += `<p class="filekey" data-filekey="${fileKey}"></p>`;
-        html += `<p>${title}</p>`;
+        html += `<p class="title">${title}</p>`;
         html += `<p>${date}</p>`;
         html += '</li>';
         $('ul#tv-light-slider').append(html);
       }
 
-      const slider = $('ul#tv-light-slider').lightSlider({
-        item: 1,
-        pager: false,
-        onSliderLoad: ($el) => {
-          $el.css('height', '100%');
+      const options = {
+        valueNames: ['title']
+      };
+      const list = new List('tv-list', options);
 
-          const $currentSlide = $el.children(`li:eq(0)`);
-          showImage($currentSlide);
-          const $nextSlide = $el.children(`li:eq(1)`);
-          showImage($nextSlide);
-        },
-        onAfterSlide: ($el) => {
-          const count = slider.getCurrentSlideCount();
-          const $nextSlide = $el.children(`li:eq(${count})`);
-          showImage($nextSlide);
-        }
-      });
+      let slider = $('ul#tv-light-slider').lightSlider(sliderConfig);
+
+      const searchList = () => {
+        const value = $('input#tv-search-text').val();
+        let regexpLabel = new RegExp(value);
+        list.filter((item) => {
+          if (item.values().title.search(regexpLabel) !== -1) {
+            return true;
+          }
+          return false;
+        });
+
+        slider.destroy();
+        slider = $('ul#tv-light-slider').lightSlider(sliderConfig);
+      };
+
+      $(document).on('keyup', 'input#tv-search-text', searchList);
     });
 
     return event;
