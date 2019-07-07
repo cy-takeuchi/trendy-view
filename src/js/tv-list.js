@@ -13,6 +13,14 @@
     return kintoneFile.download(fileKey);
   };
 
+  const showSearchBox = () => {
+    const el = kintone.mobile.app.getHeaderSpaceElement();
+    let html = '';
+    html += '<input type="text" />';
+    html += '<button type="button">Search</button>';
+    $(el).append(html);
+  };
+
   const showImage = ($slide) => {
     const $slideImageEle = $slide.children('p.filekey');
     const fileKey = $slideImageEle.data('filekey');
@@ -35,6 +43,8 @@
     if (event.viewId !== 5699240) {
       return event;
     }
+
+    showSearchBox();
 
     getRecords('').then((res) => {
       const records = res.records;
