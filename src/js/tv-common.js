@@ -31,6 +31,7 @@
   window.tv.pluginConfig = pluginConfig;
   window.tv.kintoneApp = new kintoneJSSDK.App();
   window.tv.kintoneRecord = new kintoneJSSDK.Record();
+  window.tv.kintoneFile = new kintoneJSSDK.File();
   window.tv.appId = appId;
   window.tv.coveredFieldTypeList = coveredFieldTypeList;
 })(kintone.$PLUGIN_ID);
