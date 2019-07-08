@@ -92,15 +92,24 @@
 
       let slider = $('ul#tv-light-slider').lightSlider(sliderConfig);
 
+      let lastWord = '';
       const searchList = () => {
-        const value = $('input#tv-search-text').val();
-        const regexpLabel = new RegExp(value);
+        const word = $('input#tv-search-text').val();
+
+        // 同じ検索ワードの場合はスキップする
+        if (word === lastWord) {
+          return;
+        }
+
+        const regexpLabel = new RegExp(word);
         list.filter((item) => {
           if (item.values().title.search(regexpLabel) !== -1) {
             return true;
           }
           return false;
         });
+
+        lastWord = word;
 
         slider.destroy();
         slider = $('ul#tv-light-slider').lightSlider(sliderConfig);
