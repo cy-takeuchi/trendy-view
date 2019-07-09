@@ -115,7 +115,7 @@
         slider = $('ul#tv-light-slider').lightSlider(sliderConfig);
       };
 
-      $(document).on('keyup', 'input#tv-search-text', $.debounce(500, searchList));
+      $(document).on('keyup compositionend', 'input#tv-search-text', $.debounce(500, searchList));
     });
 
     return event;
