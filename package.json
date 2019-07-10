@@ -7,7 +7,8 @@
     "develop": "npm run build -- --watch",
     "build": "kintone-plugin-packer --ppk private.ppk --out dist/kintone-plugin-trendy-view.zip src",
     "lint": "eslint src/js",
-    "build-css1": "node-sass src/scss/tv-list.scss src/css/tv-list.css --watch"
+    "build-css1": "node-sass src/scss/tv-list.scss src/css/tv-list.css --watch",
+    "build-css2": "node-sass src/scss/tv-config.scss src/css/tv-config.css --watch"
   },
   "devDependencies": {
     "@cybozu/eslint-config": "^5.1.1",
