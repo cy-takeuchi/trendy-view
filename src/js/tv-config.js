@@ -2,7 +2,7 @@ jQuery.noConflict();
 (($) => {
   'use strict';
 
-  // const originalPluginConfig = window.tv.pluginConfig;
+  const originalPluginConfig = window.tv.pluginConfig;
   const appId = window.tv.appId;
   const coveredFieldTypeList = window.tv.coveredFieldTypeList;
 
@@ -41,16 +41,6 @@ jQuery.noConflict();
     type: 'submit'
   });
 
-  kUiSaveButton.on('click', (e) => {
-    e.preventDefault();
-    let newPluginConfig = {};
-
-    kintone.plugin.app.setConfig(newPluginConfig, () => {
-      alert('Please update the app!');
-      window.location.href = getSettingsUrl();
-    });
-  });
-
   getFormFieldList().then((fieldList) => {
     const kUiTable = new kintoneUIComponent.Table({
       data: getTableInitialData('fields', fieldList),
@@ -58,13 +48,28 @@ jQuery.noConflict();
       columns: [
         {
           header: 'Field name',
-          cell: () => { return kintoneUIComponent.createTableCell('dropdown', 'fields') }
+          cell: () => {
+            return kintoneUIComponent.createTableCell('dropdown', 'fields');
+          }
         }
       ]
     });
     $('div#tv-field-table').append(kUiTable.render());
 
     $('div#tv-save-button').append(kUiSaveButton.render());
+
+    kUiTable.setValue(originalPluginConfig.showFieldList);
+
+    kUiSaveButton.on('click', (e) => {
+      e.preventDefault();
+      let newPluginConfig = {};
+      newPluginConfig.showFieldList = JSON.stringify(kUiTable.getValue());
+
+      kintone.plugin.app.setConfig(newPluginConfig, () => {
+        alert('Please update the app!');
+        window.location.href = getSettingsUrl();
+      });
+    });
   });
 
 })(jQuery);
