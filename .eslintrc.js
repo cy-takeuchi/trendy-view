@@ -7,6 +7,8 @@ module.exports = {
   },
   'globals': {
     'kintoneJSSDK': true,
-    'kintoneUIComponent': true
+    'kintoneUIComponent': true,
+    'KintoneConfigHelper': true,
+    'List': true
   },
 };
