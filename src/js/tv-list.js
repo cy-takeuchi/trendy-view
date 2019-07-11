@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  // const pluginConfig = window.tv.pluginConfig;
+  const pluginConfig = window.tv.pluginConfig;
   const kintoneRecord = window.tv.kintoneRecord;
   const kintoneFile = window.tv.kintoneFile;
   const appId = window.tv.appId;
@@ -69,8 +69,6 @@
       const records = res.records;
 
       for (let record of records) {
-        const title = record['案件名'].value;
-        const date = record['受注予定日'].value;
         let fileKey = '';
         if (record['資料'].value.length > 0) {
           fileKey = record['資料'].value[0].fileKey;
@@ -79,14 +77,16 @@
         let html = '';
         html += '<li>';
         html += `<p class="filekey" data-filekey="${fileKey}"></p>`;
-        html += `<p class="title">${title}</p>`;
-        html += `<p>${date}</p>`;
+        for (const showField of pluginConfig.showFieldList) {
+          const fieldCode = showField.fields.value;
+          html += `<p class="col">${record[fieldCode].value}</p>`;
+        }
         html += '</li>';
         $('ul#tv-light-slider').append(html);
       }
 
       const options = {
-        valueNames: ['title']
+        valueNames: ['col']
       };
       const list = new List('tv-list', options);
 
@@ -103,7 +103,7 @@
 
         const regexpLabel = new RegExp(word);
         list.filter((item) => {
-          if (item.values().title.search(regexpLabel) !== -1) {
+          if (item.values().col.search(regexpLabel) !== -1) {
             return true;
           }
           return false;
