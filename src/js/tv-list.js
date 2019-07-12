@@ -1,4 +1,5 @@
-(() => {
+jQuery.noConflict();
+(($) => {
   'use strict';
   const pluginConfig = window.tv.pluginConfig;
   const kintoneRecord = window.tv.kintoneRecord;
@@ -69,17 +70,19 @@
       const records = res.records;
 
       for (let record of records) {
-        let fileKey = '';
-        if (record['資料'].value.length > 0) {
-          fileKey = record['資料'].value[0].fileKey;
-        }
-
         let html = '';
         html += '<li>';
-        html += `<p class="filekey" data-filekey="${fileKey}"></p>`;
         for (const showField of pluginConfig.showFieldList) {
-          const fieldCode = showField.fields.value;
-          html += `<p class="col">${record[fieldCode].value}</p>`;
+          const [fieldType, fieldCode] = showField.fields.value.split(':');
+          if (fieldType === 'FILE') {
+            let fileKey = '';
+            if (record[fieldCode].value.length > 0) {
+              fileKey = record['資料'].value[0].fileKey;
+              html += `<p class="filekey" data-filekey="${fileKey}"></p>`;
+            }
+          } else {
+            html += `<p class="col">${record[fieldCode].value}</p>`;
+          }
         }
         html += '</li>';
         $('ul#tv-light-slider').append(html);

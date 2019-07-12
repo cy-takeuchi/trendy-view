@@ -11,9 +11,9 @@ jQuery.noConflict();
   };
 
   const getFormFieldList = async () => {
-    const res = await KintoneConfigHelper.getFields(...coveredFieldTypeList);
+    const res = await KintoneConfigHelper.getFields(coveredFieldTypeList);
     const fieldList = res.map((field) => {
-      return {label: `${field.label} (${field.code})`, value: field.code};
+      return {label: `${field.label} (${field.code})`, value: `${field.type}:${field.code}`};
     });
     return fieldList;
   };

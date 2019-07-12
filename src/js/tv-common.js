@@ -23,7 +23,8 @@
   const appId = getAppId();
 
   const coveredFieldTypeList = [
-    'SINGLE_LINE_TEXT'
+    'SINGLE_LINE_TEXT',
+    'FILE'
   ];
 
   window.tv = window.tv || {};
