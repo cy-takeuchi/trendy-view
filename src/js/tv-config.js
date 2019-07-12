@@ -18,22 +18,26 @@ jQuery.noConflict();
     return fieldList;
   };
 
-  const getTableInitialData = (name, fieldList) => {
-    return [
-      {
-        [name]: {
-          items: fieldList
-        }
-      }
-    ];
-  };
-
-  const getTableDefaultRowData = (name, fieldList) => {
-    return {
-      [name]: {
+  const getTableInitialData = (colList, fieldList) => {
+    let res = {};
+    for (const col of colList) {
+      res[col] = {
         items: fieldList
       }
-    };
+    }
+
+    return [res];
+  };
+
+  const getTableDefaultRowData = (colList, fieldList) => {
+    let res = {};
+    for (const col of colList) {
+      res[col] = {
+        items: fieldList
+      }
+    }
+
+    return res;
   };
 
   const kUiSaveButton = new kintoneUIComponent.Button({
@@ -41,15 +45,16 @@ jQuery.noConflict();
     type: 'submit'
   });
 
+  const colList = ['fields'];
   getFormFieldList().then((fieldList) => {
     const kUiTable = new kintoneUIComponent.Table({
-      data: getTableInitialData('fields', fieldList),
-      defaultRowData: getTableDefaultRowData('fields', fieldList),
+      data: getTableInitialData(colList, fieldList),
+      defaultRowData: getTableDefaultRowData(colList, fieldList),
       columns: [
         {
           header: 'Field name',
           cell: () => {
-            return kintoneUIComponent.createTableCell('dropdown', 'fields');
+            return kintoneUIComponent.createTableCell('dropdown', colList[0]);
           }
         }
       ]
@@ -60,14 +65,16 @@ jQuery.noConflict();
 
     if (originalPluginConfig.showFieldList !== undefined) {
       for (const showField of originalPluginConfig.showFieldList) {
-        // フィールドが増加した場合に、増加した分も含んだドロップダウンにする
-        showField.fields.items = fieldList;
+        for (const col of colList) {
+          // フィールドが増加した場合に、増加した分も含んだドロップダウンにする
+          showField[col].items = fieldList;
 
-        // フィールドが減少した場合に、減少した分を選択していた場合は未選択にする
-        const selectedValue = showField.fields.value;
-        const containsDropdown = showField.fields.items.find(item => item.value === selectedValue);
-        if (containsDropdown === undefined) {
-          showField.fields.value = undefined;
+          // フィールドが減少した場合に、減少した分を選択していた場合は未選択にする
+          const selectedValue = showField[col].value;
+          const containsDropdown = showField[col].items.find(item => item.value === selectedValue);
+          if (containsDropdown === undefined) {
+            showField[col].value = undefined;
+          }
         }
       }
       kUiTable.setValue(originalPluginConfig.showFieldList);
