@@ -58,6 +58,12 @@ jQuery.noConflict();
 
     $('div#tv-save-button').append(kUiSaveButton.render());
 
+
+
+    for (const showField of originalPluginConfig.showFieldList) {
+      // フィールドが増加した場合に、増加した分も含んだドロップダウンにする
+      showField.fields.items = fieldList;
+    }
     kUiTable.setValue(originalPluginConfig.showFieldList);
 
     kUiSaveButton.on('click', (e) => {
