@@ -5,6 +5,7 @@ jQuery.noConflict();
   const kintoneRecord = window.tv.kintoneRecord;
   const kintoneFile = window.tv.kintoneFile;
   const appId = window.tv.appId;
+  const tableColList = window.tv.tableColList;
 
   const getRecords = (query) => {
     return kintoneRecord.getRecords(appId, query);
@@ -73,7 +74,7 @@ jQuery.noConflict();
         let html = '';
         html += '<li>';
         for (const showField of pluginConfig.showFieldList) {
-          const [fieldType, fieldCode] = showField.fields.value.split(':');
+          const [fieldType, fieldCode] = showField[tableColList[0]].value.split(':');
           if (fieldType === 'FILE') {
             let fileKey = '';
             if (record[fieldCode].value.length > 0) {

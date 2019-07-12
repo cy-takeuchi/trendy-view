@@ -5,6 +5,7 @@ jQuery.noConflict();
   const originalPluginConfig = window.tv.pluginConfig;
   const appId = window.tv.appId;
   const coveredFieldTypeList = window.tv.coveredFieldTypeList;
+  const tableColList = window.tv.tableColList;
 
   const getSettingsUrl = () => {
     return `/k/admin/app/flow?app=${appId}`;
@@ -18,10 +19,10 @@ jQuery.noConflict();
     return fieldList;
   };
 
-  const getTableInitialData = (colList, fieldList) => {
+  const getTableInitialData = (tableColList, fieldList) => {
     let res = {};
-    for (const col of colList) {
-      res[col] = {
+    for (const tableCol of tableColList) {
+      res[tableCol] = {
         items: fieldList
       }
     }
@@ -29,10 +30,10 @@ jQuery.noConflict();
     return [res];
   };
 
-  const getTableDefaultRowData = (colList, fieldList) => {
+  const getTableDefaultRowData = (tableColList, fieldList) => {
     let res = {};
-    for (const col of colList) {
-      res[col] = {
+    for (const tableCol of tableColList) {
+      res[tableCol] = {
         items: fieldList
       }
     }
@@ -45,16 +46,15 @@ jQuery.noConflict();
     type: 'submit'
   });
 
-  const colList = ['fields'];
   getFormFieldList().then((fieldList) => {
     const kUiTable = new kintoneUIComponent.Table({
-      data: getTableInitialData(colList, fieldList),
-      defaultRowData: getTableDefaultRowData(colList, fieldList),
+      data: getTableInitialData(tableColList, fieldList),
+      defaultRowData: getTableDefaultRowData(tableColList, fieldList),
       columns: [
         {
           header: 'Field name',
           cell: () => {
-            return kintoneUIComponent.createTableCell('dropdown', colList[0]);
+            return kintoneUIComponent.createTableCell('dropdown', tableColList[0]);
           }
         }
       ]
@@ -65,15 +65,15 @@ jQuery.noConflict();
 
     if (originalPluginConfig.showFieldList !== undefined) {
       for (const showField of originalPluginConfig.showFieldList) {
-        for (const col of colList) {
+        for (const tableCol of tableColList) {
           // フィールドが増加した場合に、増加した分も含んだドロップダウンにする
-          showField[col].items = fieldList;
+          showField[tableCol].items = fieldList;
 
           // フィールドが減少した場合に、減少した分を選択していた場合は未選択にする
-          const selectedValue = showField[col].value;
-          const containsDropdown = showField[col].items.find(item => item.value === selectedValue);
+          const selectedValue = showField[tableCol].value;
+          const containsDropdown = showField[tableCol].items.find(item => item.value === selectedValue);
           if (containsDropdown === undefined) {
-            showField[col].value = undefined;
+            showField[tableCol].value = undefined;
           }
         }
       }

@@ -27,6 +27,8 @@
     'FILE'
   ];
 
+  const tableColList = ['fields'];
+
   window.tv = window.tv || {};
 
   window.tv.pluginConfig = pluginConfig;
@@ -35,4 +37,5 @@
   window.tv.kintoneFile = new kintoneJSSDK.File();
   window.tv.appId = appId;
   window.tv.coveredFieldTypeList = coveredFieldTypeList;
+  window.tv.tableColList = tableColList;
 })(kintone.$PLUGIN_ID);
