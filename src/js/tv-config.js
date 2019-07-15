@@ -14,7 +14,7 @@ jQuery.noConflict();
   const getFormFieldList = async () => {
     const res = await KintoneConfigHelper.getFields(coveredFieldTypeList);
     const fieldList = res.map((field) => {
-      return {label: `${field.label} (${field.code})`, value: `${field.type}:${field.code}`};
+      return {label: `${field.label} (${field.code})`, value: `${field.type}:${field.code}:${field.label}`};
     });
     return fieldList;
   };
@@ -24,7 +24,7 @@ jQuery.noConflict();
     for (const tableCol of tableColList) {
       res[tableCol] = {
         items: fieldList
-      }
+      };
     }
 
     return [res];
@@ -35,7 +35,7 @@ jQuery.noConflict();
     for (const tableCol of tableColList) {
       res[tableCol] = {
         items: fieldList
-      }
+      };
     }
 
     return res;

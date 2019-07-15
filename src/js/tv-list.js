@@ -39,6 +39,17 @@ jQuery.noConflict();
     $(el).append(html);
   };
 
+  const createSliderData = (value, label = '') => {
+    let html = '';
+    if (label === '') {
+      html += `<p class="col">${value}</p>`;
+    } else {
+      html += `<p class="col">${value} <span class="label">(${label})</span></p>`;
+    }
+
+    return html;
+  };
+
   const sliderConfig = {
     item: 1,
     pager: false,
@@ -61,7 +72,7 @@ jQuery.noConflict();
     'mobile.app.record.index.show'
   ];
   kintone.events.on(indexShowEventList, (event) => {
-    if (event.viewId !== 5699240) {
+    if (event.viewId !== 5699365 && event.viewId !== 5698734) {
       return event;
     }
 
@@ -74,16 +85,38 @@ jQuery.noConflict();
         let html = '';
         html += '<li>';
         for (const showField of pluginConfig.showFieldList) {
-          const [fieldType, fieldCode] = showField[tableColList[0]].value.split(':');
-          if (fieldType === 'FILE') {
-            let fileKey = '';
-            if (record[fieldCode].value.length > 0) {
-              fileKey = record['資料'].value[0].fileKey;
-              html += `<p class="filekey" data-filekey="${fileKey}"></p>`;
-            }
+          const [fieldType, fieldCode, fieldLabel] = showField[tableColList[0]].value.split(':');
+          const fieldValue = record[fieldCode].value;
+
+          let value = '';
+          let label = '';
+          if (fieldValue === null || fieldValue === ''
+            || (Array.isArray(fieldValue) === true && fieldValue.length === 0)) {
+            value = '&nbsp;';
+          } else if (fieldType === 'DATE' || fieldType === 'TIME') {
+            label = fieldLabel;
+            value = fieldValue;
+          } else if (fieldType === 'DATETIME' || fieldType === 'CREATED_TIME' || fieldType === 'UPDATED_TIME') {
+            const date = new Date(fieldValue);
+            label = fieldLabel;
+            value = date.toLocaleString();
+          } else if (fieldType === 'USER_SELECT' || fieldType === 'GROUP_SELECT' || fieldType === 'ORGANIZATION_SELECT') {
+            const valueList = fieldValue.map((v) => v.name);
+            label = fieldLabel;
+            value = valueList.join(',');
+          } else if (fieldType === 'CREATOR' || fieldType === 'MODIFIER') {
+            label = fieldLabel;
+            value = fieldValue.name;
+          } else if (fieldType === 'RICH_TEXT') {
+            label = fieldLabel;
+            value = fieldValue.replace(/<[^>]*>/g, ' ');
+          } else if (fieldType === 'FILE') {
+            const fileKey = fieldValue[0].fileKey;
+            html += `<p class="filekey" data-filekey="${fileKey}"></p>`;
           } else {
-            html += `<p class="col">${record[fieldCode].value}</p>`;
+            value = fieldValue;
           }
+          html += createSliderData(value, label);
         }
         html += '</li>';
         $('ul#tv-light-slider').append(html);

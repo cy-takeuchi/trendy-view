@@ -24,7 +24,31 @@
 
   const coveredFieldTypeList = [
     'SINGLE_LINE_TEXT',
-    'FILE'
+    'RICH_TEXT',
+    'MULTI_LINE_TEXT',
+    'NUMBER',
+    'CALC',
+    'RADIO_BUTTON',
+    'CHECK_BOX',
+    'MULTI_SELECT',
+    'DROP_DOWN',
+    'DATE',
+    'TIME',
+    'DATETIME',
+    'FILE',
+    'LINK',
+    'USER_SELECT',
+    'ORGANIZATION_SELECT',
+    'GROUP_SELECT',
+    // 'REFERENCE_TABLE',
+    // 'SPACER',
+    // 'SUBTABLE',
+    // 'GROUP',
+    'RECORD_NUMBER',
+    'CREATOR',
+    'CREATED_TIME',
+    'MODIFIER',
+    'UPDATED_TIME'
   ];
 
   const tableColList = ['fields'];
