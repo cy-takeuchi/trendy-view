@@ -42,9 +42,9 @@ jQuery.noConflict();
   const createSliderData = (value, label = '') => {
     let html = '';
     if (label === '') {
-      html += `<p class="col">${value}</p>`;
+      html += `<p>${value}</p>`;
     } else {
-      html += `<p class="col">${value} <span class="label">(${label})</span></p>`;
+      html += `<p>${value}<span class="label">(${label})</span></p>`;
     }
 
     return html;
@@ -81,9 +81,11 @@ jQuery.noConflict();
     getRecords('').then((res) => {
       const records = res.records;
 
-      for (let record of records) {
+      for (const record of records) {
         let html = '';
         html += '<li>';
+
+        let allValue = []; // 検索用
         for (const showField of pluginConfig.showFieldList) {
           const [fieldType, fieldCode, fieldLabel] = showField[tableColList[0]].value.split(':');
           const fieldValue = record[fieldCode].value;
@@ -96,34 +98,41 @@ jQuery.noConflict();
           } else if (fieldType === 'DATE' || fieldType === 'TIME') {
             label = fieldLabel;
             value = fieldValue;
+            allValue.push(value);
           } else if (fieldType === 'DATETIME' || fieldType === 'CREATED_TIME' || fieldType === 'UPDATED_TIME') {
             const date = new Date(fieldValue);
             label = fieldLabel;
             value = date.toLocaleString();
+            allValue.push(value);
           } else if (fieldType === 'USER_SELECT' || fieldType === 'GROUP_SELECT' || fieldType === 'ORGANIZATION_SELECT') {
             const valueList = fieldValue.map((v) => v.name);
             label = fieldLabel;
             value = valueList.join(',');
+            allValue.push(valueList.join(' '));
           } else if (fieldType === 'CREATOR' || fieldType === 'MODIFIER') {
             label = fieldLabel;
             value = fieldValue.name;
+            allValue.push(value);
           } else if (fieldType === 'RICH_TEXT') {
             label = fieldLabel;
             value = fieldValue.replace(/<[^>]*>/g, ' ');
+            allValue.push(value);
           } else if (fieldType === 'FILE') {
             const fileKey = fieldValue[0].fileKey;
             html += `<p class="filekey" data-filekey="${fileKey}"></p>`;
           } else {
             value = fieldValue;
+            allValue.push(value);
           }
           html += createSliderData(value, label);
         }
+        html += `<p class="value">${allValue.join(' ')}</p>`;
         html += '</li>';
         $('ul#tv-light-slider').append(html);
       }
 
       const options = {
-        valueNames: ['col']
+        valueNames: ['value']
       };
       const list = new List('tv-list', options);
 
@@ -138,13 +147,7 @@ jQuery.noConflict();
           return;
         }
 
-        const regexpLabel = new RegExp(word);
-        list.filter((item) => {
-          if (item.values().col.search(regexpLabel) !== -1) {
-            return true;
-          }
-          return false;
-        });
+        list.search(word);
 
         lastWord = word;
 
