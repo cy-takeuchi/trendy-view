@@ -88,6 +88,10 @@ jQuery.noConflict();
         let allValue = []; // 検索用
         for (const showField of pluginConfig.showFieldList) {
           const [fieldType, fieldCode, fieldLabel] = showField[tableColList[0]].value.split(':');
+          if (record[fieldCode] === undefined) {
+            continue; // プラグインで設定したが、フィールドが削除された場合
+          }
+
           const fieldValue = record[fieldCode].value;
 
           let value = '';
