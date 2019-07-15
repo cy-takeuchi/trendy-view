@@ -19,10 +19,10 @@ jQuery.noConflict();
     return fieldList;
   };
 
-  const getTableInitialData = (tableColList, fieldList) => {
+  const getTableInitialData = (colList, fieldList) => {
     let res = {};
-    for (const tableCol of tableColList) {
-      res[tableCol] = {
+    for (const col of colList) {
+      res[col] = {
         items: fieldList
       };
     }
@@ -30,10 +30,10 @@ jQuery.noConflict();
     return [res];
   };
 
-  const getTableDefaultRowData = (tableColList, fieldList) => {
+  const getTableDefaultRowData = (colList, fieldList) => {
     let res = {};
-    for (const tableCol of tableColList) {
-      res[tableCol] = {
+    for (const col of colList) {
+      res[col] = {
         items: fieldList
       };
     }
