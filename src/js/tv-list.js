@@ -44,7 +44,7 @@ jQuery.noConflict();
     if (label === '') {
       html += `<p>${value}</p>`;
     } else {
-      html += `<p>${value}<span class="label">(${label})</span></p>`;
+      html += `<p>${value}<span class="label"> (${label})</span></p>`;
     }
 
     return html;
