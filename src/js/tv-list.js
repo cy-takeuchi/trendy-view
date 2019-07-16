@@ -78,7 +78,8 @@ jQuery.noConflict();
 
     showSearchBox();
 
-    getRecords('').then((res) => {
+    const query = kintone.mobile.app.getQueryCondition();
+    getRecords(query).then((res) => {
       const records = res.records;
 
       for (const record of records) {
