@@ -160,7 +160,10 @@ jQuery.noConflict();
         slider = $('ul#tv-light-slider').lightSlider(sliderConfig);
       };
 
-      $(document).on('keyup compositionend', 'input#tv-search-text', $.debounce(500, searchList));
+      // keyup: キー入力
+      // compositionend: キーの保管入力
+      // change: マイク入力
+      $(document).on('keyup compositionend change', 'input#tv-search-text', $.debounce(500, searchList));
     });
 
     return event;
