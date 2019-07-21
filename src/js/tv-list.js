@@ -16,7 +16,7 @@ jQuery.noConflict();
   };
 
   const showImage = ($slide) => {
-    const $slideImageEle = $slide.children('p.filekey');
+    const $slideImageEle = $slide.children('a').children('p.filekey');
     const fileKey = $slideImageEle.data('filekey');
     if (fileKey === '' || fileKey === undefined) {
       return;
@@ -50,6 +50,10 @@ jQuery.noConflict();
     return html;
   };
 
+  const createDetailUrl = (viewId, rId) => {
+    return `/k/m/${appId}/show?record=${rId}&view=${viewId}`;
+  };
+
   const sliderConfig = {
     item: 1,
     pager: false,
@@ -72,7 +76,8 @@ jQuery.noConflict();
     'mobile.app.record.index.show'
   ];
   kintone.events.on(indexShowEventList, (event) => {
-    if (event.viewId !== 5699365 && event.viewId !== 5698734) {
+    const viewId = event.viewId;
+    if (viewId !== 5699365 && viewId !== 5698734) {
       return event;
     }
 
@@ -80,11 +85,12 @@ jQuery.noConflict();
 
     const query = kintone.mobile.app.getQueryCondition();
     getRecords(query).then((res) => {
-      const records = res.records;
+      for (const record of res.records) {
+        const rId = record.$id.value;
+        const url = createDetailUrl(viewId, rId);
 
-      for (const record of records) {
         let html = '';
-        html += '<li>';
+        html += `<li><a href="${url}">`;
 
         let allValue = []; // 検索用
         for (const showField of pluginConfig.showFieldList) {
@@ -132,7 +138,7 @@ jQuery.noConflict();
           html += createSliderData(value, label);
         }
         html += `<p class="value">${allValue.join(' ')}</p>`;
-        html += '</li>';
+        html += '</a></li>';
         $('ul#tv-light-slider').append(html);
       }
 
