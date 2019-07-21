@@ -1,11 +1,17 @@
 jQuery.noConflict();
 (($) => {
   'use strict';
+
   const pluginConfig = window.tv.pluginConfig;
   const kintoneRecord = window.tv.kintoneRecord;
   const kintoneFile = window.tv.kintoneFile;
   const appId = window.tv.appId;
   const tableColList = window.tv.tableColList;
+  const pickLocalStorage = window.tv.pickLocalStorage;
+  const saveLocalStorage = window.tv.saveLocalStorage;
+
+  const subdomain = window.location.hostname.split('.')[0];
+  const lsSearchWord = `tv-${subdomain}-${appId}-word`; // 検索ワード
 
   const getRecords = (query) => {
     return kintoneRecord.getRecords(appId, query);
@@ -146,10 +152,17 @@ jQuery.noConflict();
         valueNames: ['value']
       };
       const list = new List('tv-list', options);
+      let lastWord = '';
+
+      const firstSearchWord = pickLocalStorage(lsSearchWord);
+      if (firstSearchWord !== '') {
+        $('input#tv-search-text').val(firstSearchWord);
+        list.search(firstSearchWord);
+        lastWord = firstSearchWord;
+      }
 
       let slider = $('ul#tv-light-slider').lightSlider(sliderConfig);
 
-      let lastWord = '';
       const searchList = () => {
         const word = $('input#tv-search-text').val();
 
@@ -158,6 +171,7 @@ jQuery.noConflict();
           return;
         }
 
+        saveLocalStorage(lsSearchWord, word);
         list.search(word);
 
         lastWord = word;

@@ -22,6 +22,22 @@
   };
   const appId = getAppId();
 
+  const pickLocalStorage = (key) => {
+    const data = localStorage.getItem(key);
+    let result = null;
+    if (data !== null) {
+      result = JSON.parse(data);
+    } else if (data === null && key === lsInitialKey) {
+      result = 0;
+    }
+
+    return result;
+  };
+
+  const saveLocalStorage = (key, data) => {
+    localStorage.setItem(key, JSON.stringify(data));
+  };
+
   const coveredFieldTypeList = [
     'SINGLE_LINE_TEXT',
     'RICH_TEXT',
@@ -60,6 +76,8 @@
   window.tv.kintoneRecord = new kintoneJSSDK.Record();
   window.tv.kintoneFile = new kintoneJSSDK.File();
   window.tv.appId = appId;
+  window.tv.pickLocalStorage = pickLocalStorage;
+  window.tv.saveLocalStorage = saveLocalStorage;
   window.tv.coveredFieldTypeList = coveredFieldTypeList;
   window.tv.tableColList = tableColList;
 })(kintone.$PLUGIN_ID);
