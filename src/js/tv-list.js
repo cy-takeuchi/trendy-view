@@ -48,7 +48,9 @@ jQuery.noConflict();
 
   const createSliderData = (value, label = '') => {
     let html = '';
-    if (label === '') {
+    if (value === '') {
+      html += ''; // 添付ファイルの場合
+    } else if (label === '') {
       html += `<p>${value}</p>`;
     } else {
       html += `<p>${value}<span class="label"> (${label})</span></p>`;
