@@ -118,7 +118,7 @@ jQuery.noConflict();
           if (fieldValue === null || fieldValue === ''
             || (Array.isArray(fieldValue) === true && fieldValue.length === 0)) {
             value = '&nbsp;';
-          } else if (fieldType === 'DATE' || fieldType === 'TIME') {
+          } else if (fieldType === 'DATE' || fieldType === 'TIME' || fieldType === 'NUMBER' || fieldType === 'CALC') {
             label = fieldLabel;
             value = fieldValue;
             allValue.push(value);
