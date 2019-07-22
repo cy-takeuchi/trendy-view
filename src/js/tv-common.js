@@ -27,7 +27,7 @@
     let result = null;
     if (data !== null) {
       result = JSON.parse(data);
-    } else if (data === null && key === lsInitialKey) {
+    } else if (data === null) {
       result = 0;
     }
 

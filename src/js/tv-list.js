@@ -12,6 +12,7 @@ jQuery.noConflict();
 
   const subdomain = window.location.hostname.split('.')[0];
   const lsSearchWord = `tv-${subdomain}-${appId}-word`; // 検索ワード
+  const lsSlidePage = `tv-${subdomain}-${appId}-page`; // 表示していたスライドのページ
 
   const getRecords = (query) => {
     return kintoneRecord.getRecords(appId, query);
@@ -75,6 +76,11 @@ jQuery.noConflict();
       const count = $el.getCurrentSlideCount();
       const $nextSlide = $el.children(`li:eq(${count})`);
       showImage($nextSlide);
+
+      const $prevSlide = $el.children(`li:eq(${count - 1})`);
+      showImage($prevSlide);
+
+      saveLocalStorage(lsSlidePage, count - 1);
     }
   };
 
@@ -162,6 +168,19 @@ jQuery.noConflict();
       }
 
       let slider = $('ul#tv-light-slider').lightSlider(sliderConfig);
+      let slidePage = pickLocalStorage(lsSlidePage);
+      if (slidePage > 0) {
+        const $currentSlide = $('ul#tv-light-slider').children(`li:eq(${slidePage})`);
+        showImage($currentSlide);
+
+        const $nextSlide = $('ul#tv-light-slider').children(`li:eq(${slidePage + 1})`);
+        showImage($nextSlide);
+
+        const $prevSlide = $('ul#tv-light-slider').children(`li:eq(${slidePage - 1})`);
+        showImage($prevSlide);
+
+        slider.goToSlide(slidePage);
+      }
 
       const searchList = () => {
         const word = $('input#tv-search-text').val();
