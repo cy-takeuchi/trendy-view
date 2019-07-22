@@ -66,11 +66,6 @@ jQuery.noConflict();
     pager: false,
     onSliderLoad: ($el) => {
       $el.css('height', '100%');
-
-      const $currentSlide = $el.children(`li:eq(0)`);
-      showImage($currentSlide);
-      const $nextSlide = $el.children(`li:eq(1)`);
-      showImage($nextSlide);
     },
     onAfterSlide: ($el) => {
       const count = $el.getCurrentSlideCount();
@@ -169,18 +164,19 @@ jQuery.noConflict();
 
       let slider = $('ul#tv-light-slider').lightSlider(sliderConfig);
       let slidePage = pickLocalStorage(lsSlidePage);
-      if (slidePage > 0) {
-        const $currentSlide = $('ul#tv-light-slider').children(`li:eq(${slidePage})`);
-        showImage($currentSlide);
-
-        const $nextSlide = $('ul#tv-light-slider').children(`li:eq(${slidePage + 1})`);
-        showImage($nextSlide);
-
-        const $prevSlide = $('ul#tv-light-slider').children(`li:eq(${slidePage - 1})`);
-        showImage($prevSlide);
-
-        slider.goToSlide(slidePage);
+      if (list.visibleItems.length < 4) {
+        for (let i = 0; i < list.visibleItems.length; i++) {
+          const $currentSlide = $('ul#tv-light-slider').children(`li:eq(${i})`);
+          showImage($currentSlide);
+        }
+      } else {
+        for (let i = slidePage - 1; i <= slidePage + 1; i++) {
+          const $currentSlide = $('ul#tv-light-slider').children(`li:eq(${i})`);
+          showImage($currentSlide);
+        }
       }
+
+      slider.goToSlide(slidePage);
 
       const searchList = () => {
         const word = $('input#tv-search-text').val();
@@ -197,6 +193,12 @@ jQuery.noConflict();
 
         slider.destroy();
         slider = $('ul#tv-light-slider').lightSlider(sliderConfig);
+
+        const $currentSlide = $('ul#tv-light-slider').children(`li:eq(0)`);
+        showImage($currentSlide);
+
+        const $nextSlide = $('ul#tv-light-slider').children(`li:eq(1)`);
+        showImage($nextSlide);
       };
 
       // keyup: キー入力
