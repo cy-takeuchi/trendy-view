@@ -115,7 +115,11 @@ jQuery.noConflict();
           if (fieldValue === null || fieldValue === ''
             || (Array.isArray(fieldValue) === true && fieldValue.length === 0)) {
             value = '&nbsp;';
-          } else if (fieldType === 'DATE' || fieldType === 'TIME' || fieldType === 'NUMBER' || fieldType === 'CALC') {
+          } else if (fieldType === 'NUMBER' || fieldType === 'CALC') {
+            label = fieldLabel;
+            value = String(fieldValue).replace( /(\d)(?=(\d\d\d)+(?!\d))/g, '$1,'); // カンマ区切り
+            allValue.push(value);
+          } else if (fieldType === 'DATE' || fieldType === 'TIME') {
             label = fieldLabel;
             value = fieldValue;
             allValue.push(value);
